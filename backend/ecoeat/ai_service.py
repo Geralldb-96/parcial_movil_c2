@@ -2,6 +2,7 @@ import json
 import os
 import re
 
+from google import genai
 import requests
 
 
@@ -29,19 +30,45 @@ def _clean_json(text: str) -> dict:
 
 
 def _gemini(ingredients: list[str], api_key: str) -> dict:
-    url = (
-        "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-2.0-flash:generateContent?key={api_key}"
-    )
-    prompt = f"{SYSTEM_PROMPT}\nIngredientes disponibles: {', '.join(ingredients)}"
-    response = requests.post(
-        url,
-        json={"contents": [{"parts": [{"text": prompt}]}]},
-        timeout=30,
-    )
-    response.raise_for_status()
-    text = response.json()["candidates"][0]["content"]["parts"][0]["text"]
-    return _clean_json(text)
+    try:
+        with genai.Client(api_key=api_key) as client:
+            response = client.models.generate_content(
+                model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+                contents=f"Ingredientes disponibles: {', '.join(ingredients)}",
+                config={
+                    "system_instruction": SYSTEM_PROMPT,
+                    "response_mime_type": "application/json",
+                    "response_schema": {
+                        "type": "OBJECT",
+                        "properties": {
+                            "titulo": {"type": "STRING"},
+                            "tiempo_minutos": {"type": "INTEGER"},
+                            "ingredientes": {
+                                "type": "ARRAY",
+                                "items": {"type": "STRING"},
+                            },
+                            "pasos": {
+                                "type": "ARRAY",
+                                "items": {"type": "STRING"},
+                            },
+                            "consejo_anti_desperdicio": {"type": "STRING"},
+                        },
+                        "required": [
+                            "titulo",
+                            "tiempo_minutos",
+                            "ingredientes",
+                            "pasos",
+                            "consejo_anti_desperdicio",
+                        ],
+                    },
+                },
+            )
+    except Exception as exc:
+        raise AIServiceError("Gemini no pudo generar la receta.") from exc
+
+    if not response.text:
+        raise AIServiceError("Gemini devolvió una respuesta vacía.")
+    return _clean_json(response.text)
 
 
 def _openai(ingredients: list[str], api_key: str) -> dict:

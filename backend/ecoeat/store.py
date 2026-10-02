@@ -18,6 +18,14 @@ class RecipeStore:
         with self._lock:
             return [item.copy() for item in self._items.values()]
 
+    def favorites(self) -> list[dict]:
+        with self._lock:
+            return [
+                item.copy()
+                for item in self._items.values()
+                if item.get("favorito", False)
+            ]
+
     def set_favorite(self, recipe_id: int, favorite: bool | None) -> dict | None:
         with self._lock:
             item = self._items.get(recipe_id)

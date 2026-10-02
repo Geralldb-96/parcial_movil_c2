@@ -1,0 +1,213 @@
+{
+	"id": "9323af0c-6551-45df-bf27-5e7b1e665795",
+	"name": "Recetas API - Pruebas rápidas (5 endpoints)",
+	"timestamp": "2026-10-02T00:53:07.348Z",
+	"collection_id": "18347366-afeb1e0c-a638-439e-9a7d-a3808ff691a9",
+	"folder_id": 0,
+	"environment_id": "18347366-8bdcb98b-62b6-40b5-8538-0aedd8cf9204",
+	"totalPass": 10,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-10-02T00:53:04.942Z",
+	"totalFail": 1,
+	"results": [
+		{
+			"id": "0ab11669-f001-47a5-9b01-9ab6892362ce",
+			"name": "1) GET ingredientes sugeridos",
+			"url": "http://127.0.0.1:5000/api/ingredientes/sugeridos",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Devuelve lista de ingredientes": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Devuelve lista de ingredientes": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Devuelve lista de ingredientes": true
+				}
+			]
+		},
+		{
+			"id": "b18ce21f-ecdb-40fb-acfa-c8d92a6efea1",
+			"name": "2) POST generar receta",
+			"url": "http://127.0.0.1:5000/api/receta/generar",
+			"time": 1609,
+			"responseCode": {
+				"code": 201,
+				"name": "CREATED"
+			},
+			"tests": {
+				"Status 201": true,
+				"Receta con estructura correcta": true,
+				"id = 1 (servidor recién iniciado)": false
+			},
+			"testPassFailCounts": {
+				"Status 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Receta con estructura correcta": {
+					"pass": 1,
+					"fail": 0
+				},
+				"id = 1 (servidor recién iniciado)": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				1609
+			],
+			"allTests": [
+				{
+					"Status 201": true,
+					"Receta con estructura correcta": true,
+					"id = 1 (servidor recién iniciado)": false
+				}
+			]
+		},
+		{
+			"id": "ced9dd28-73cd-41cc-b22c-b3c91fae54ef",
+			"name": "3) GET historial",
+			"url": "http://127.0.0.1:5000/api/historial",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"El historial contiene la receta con id 1": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"El historial contiene la receta con id 1": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"El historial contiene la receta con id 1": true
+				}
+			]
+		},
+		{
+			"id": "6d2105b2-4960-4b3a-8a31-07f6d39ee467",
+			"name": "4) PUT favorito",
+			"url": "http://127.0.0.1:5000/api/historial/favorito",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Receta marcada como favorita": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Receta marcada como favorita": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Receta marcada como favorita": true
+				}
+			]
+		},
+		{
+			"id": "8919418b-0ba6-4d96-83fd-afa65f9cf1ea",
+			"name": "5) DELETE receta",
+			"url": "http://127.0.0.1:5000/api/historial/1",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Receta eliminada": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Receta eliminada": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Receta eliminada": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1633,
+	"collection": {
+		"requests": [
+			{
+				"id": "0ab11669-f001-47a5-9b01-9ab6892362ce",
+				"method": "GET"
+			},
+			{
+				"id": "b18ce21f-ecdb-40fb-acfa-c8d92a6efea1",
+				"method": "POST"
+			},
+			{
+				"id": "ced9dd28-73cd-41cc-b22c-b3c91fae54ef",
+				"method": "GET"
+			},
+			{
+				"id": "6d2105b2-4960-4b3a-8a31-07f6d39ee467",
+				"method": "PUT"
+			},
+			{
+				"id": "8919418b-0ba6-4d96-83fd-afa65f9cf1ea",
+				"method": "DELETE"
+			}
+		]
+	}
+}

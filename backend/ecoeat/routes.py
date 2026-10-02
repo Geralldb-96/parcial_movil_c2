@@ -16,6 +16,7 @@ SUGGESTED_INGREDIENTS = [
 def create_recipe():
     body = request.get_json(silent=True) or {}
     ingredients = body.get("ingredientes")
+    preferences = body.get("preferencias", {})
     if not isinstance(ingredients, list):
         return {"error": "El campo 'ingredientes' debe ser una lista."}, 400
 
@@ -24,8 +25,10 @@ def create_recipe():
         return {"error": "Agrega al menos un ingrediente."}, 400
     if len(cleaned) > 20:
         return {"error": "Se permiten máximo 20 ingredientes."}, 400
+    if not isinstance(preferences, dict):
+        return {"error": "El campo 'preferencias' debe ser un objeto."}, 400
 
-    recipe = store.add(generate_recipe(cleaned))
+    recipe = store.add(generate_recipe(cleaned, preferences))
     return {"receta": recipe}, 201
 
 
@@ -37,6 +40,11 @@ def suggested_ingredients():
 @api.get("/historial")
 def history():
     return {"recetas": store.all()}, 200
+
+
+@api.get("/historial/favoritos")
+def favorites():
+    return {"recetas": store.favorites()}, 200
 
 
 @api.put("/historial/favorito")
